@@ -1,10 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
-import { useEffect } from 'react';
+import logo from "./logo.svg";
+import "./App.css";
+import { useEffect, useState } from "react";
 
 const endpoint = "https://api.spacex.land/graphql/";
-  const FILMS_QUERY = `{
-    histories(limit: 5) {
+const FILMS_QUERY = `{
+    histories(limit: 13) {
       id
       title
       details
@@ -12,11 +12,12 @@ const endpoint = "https://api.spacex.land/graphql/";
   }`;
 
 function App() {
+  const [historyArr, setHistory] = useState([]);
   useEffect(() => {
     fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: FILMS_QUERY })
+      body: JSON.stringify({ query: FILMS_QUERY }),
     })
       .then((response) => {
         if (response.status >= 400) {
@@ -25,25 +26,16 @@ function App() {
           return response.json();
         }
       })
-      .then((data) => data.data);
-  },[])
+      .then((data) => setHistory(data.data.histories));
+  }, []);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Git Actions in Action</h1>
+
+      {historyArr.map((ele) => {
+        return <p>{ele.title}</p>;
+      })}
     </div>
   );
 }
