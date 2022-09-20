@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const endpoint = "https://api.spacex.land/graphql/";
 const FILMS_QUERY = `{
-    histories(limit: 13) {
+    histories(limit: 5) {
       id
       title
       details
